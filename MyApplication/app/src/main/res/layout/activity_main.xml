@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.robotitect.robfan.MainActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="113dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="8dp"
+        android:text="Hello"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStart"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/buttonStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickStart"
+        android:text="Start"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/buttonUp"
+        app:layout_constraintRight_toRightOf="@+id/buttonUp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="23dp"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonUp" />
+
+    <Button
+        android:id="@+id/buttonDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Down"
+        android:onClick="onClickDown"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStop"
+        app:layout_constraintRight_toRightOf="@+id/buttonStop"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="23dp"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonStop" />
+
+    <Button
+        android:id="@+id/buttonUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Up"
+        android:onClick="onClickUp"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDown"
+        app:layout_constraintRight_toRightOf="@+id/buttonDown"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonDown" />
+
+    <Button
+        android:id="@+id/buttonRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:onClick="onClickRight"
+        android:text="Right"
+        app:layout_constraintLeft_toRightOf="@+id/buttonDown"
+        app:layout_constraintTop_toBottomOf="@+id/buttonUp"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <Button
+        android:id="@+id/buttonLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:onClick="onClickLeft"
+        android:text="Left"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDown"
+        app:layout_constraintRight_toLeftOf="@+id/buttonUp"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/buttonStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:onClick="onClickStop"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="37dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <!--<ListView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--tools:layout_editor_absoluteX="16dp"-->
+        <!--tools:layout_editor_absoluteY="16dp" />-->
+
+</android.support.constraint.ConstraintLayout>
