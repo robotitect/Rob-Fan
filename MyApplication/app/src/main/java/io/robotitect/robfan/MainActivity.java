@@ -31,6 +31,8 @@ import android.widget.ListView;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.widget.TextView;
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                     outputStream = socket.getOutputStream(); // data forwards
                     inputStream = socket.getInputStream(); // data received
                 }
-                catch (IOException e)
+                catch(IOException e)
                 {
                     e.printStackTrace();
                 }
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity
     {
         try
         {
-            outputStream.write('d');
+            outputStream.write("d".getBytes());
         }
         catch(IOException e)
         {
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity
     {
         try
         {
-            outputStream.write('u');
+            outputStream.write("u".getBytes());
         }
         catch(IOException e)
         {
@@ -164,7 +166,7 @@ public class MainActivity extends AppCompatActivity
     {
         try
         {
-            outputStream.write('r');
+            outputStream.write("r".getBytes());
         }
         catch(IOException e)
         {
@@ -176,7 +178,7 @@ public class MainActivity extends AppCompatActivity
     {
         try
         {
-            outputStream.write('l');
+            outputStream.write("l".getBytes());
         }
         catch(IOException e)
         {
