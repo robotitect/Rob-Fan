@@ -1,4 +1,4 @@
-/*
+  /*
    Controls the system, comprised of two servos and one motor.
    (x is forward/backwards, y is left/right, z is up/down)
    Servo 1 rotates 180 degrees about its z-axis.
@@ -7,19 +7,25 @@
    With this setup the motor can be rotated through a hemisphere.
 */
 
+#include <math.h>
+#include <NewPing.h>
 #include <Servo.h>
 #include <SoftwareSerial.h>
 
 SoftwareSerial Bluetooth(2, 3); // RX = 2, TX = 3
 
-int numSensors = 1;
+const int NUM_SENSORS = 1;
 
-int trigs[numSensors] = [0] // pins for triggers of sensors
-int echoes[numSensors] = [0] // pins for echoes of sensors
-int yDist[numSensors] = [0] // dist in cm of the sensors' y-position
+int trigs[NUM_SENSORS] = {6}; // pins for triggers of sensors
+int echoes[NUM_SENSORS] = {7}; // pins for echoes of sensors
+int yDist[NUM_SENSORS] = {200}; // dist in cm of the sensors' y-position
+
+NewPing sonars[NUM_SENSORS] = NewPing(6, 7)};
 
 Servo servo_1; // servo rotating along z-axis
+int pin_servo_1 = 10;
 Servo servo_2; // servo rotating along y-axis
+int pin_servo_2 = 9;
 
 int pos_1 = 0; // position of Servo 1
 int pos_2 = 0; // position of Servo 2
@@ -37,15 +43,22 @@ int motorControl = 11; // motor attached to pin 11
 int X = 0; // x-position of subject
 int Y = 0; // y-position of subject
 
+int X_old = 0; // previous x-position of subject
+
 void setup()
 {
-  servo_1.attach(9); // Servo 1 set to pin 9
-  servo_2.attach(10); // Servo 2 set to pin 10
+  servo_1.attach(pin_servo_1); 
+  servo_2.attach(pin_servo_2); 
   pinMode(motorControl, OUTPUT);
+  servo_1.write(0);
+  servo_2.write(0);
 
+//  for(int i = 0; i < NUM_SENSORS; i++)
+//  {
+//    sonars[i] = new NewPing(trigs[i], echoes[i]);
+//  }
 
-
-  Serial.begin(38400); // receiving data from bluetooth at 9600 bits per second
+  Serial.begin(38400); // receiving data from bluetooth at 38400 bits per second
   Serial.println("Waiting commands....");
   Bluetooth.begin(38400);
   Bluetooth.println("Send 1 to turn on the LED. Send 0 to turn Off");
@@ -54,18 +67,25 @@ void setup()
 void loop()
 {  
   // cycle through the sensors to check which one is firing block
-  for (int i = 0; i < numSensors; i++)
+  for (int i = 0; i < NUM_SENSORS; i++)
   {
-    if (dist(trigs[i], echoes[i]) > minDist)
+    if (sonars[i].ping_cm() > MIN_DIST)
     {
-      X = dist(trigs[i], echoes[i]);
+      X = sonar.ping_cm();
       Y = yDist[i];
+      String toWrite = String("X: ") + X + String("cm. Y:") + Y + String("cm.");
+      Serial.println(toWrite);
+      if(X > 0)
+      {
+        // move the 2nd servo into position
+        int theta = angleRotate(X, Y);
+        servo_2.write(theta);
+      }
       break;
     }
   }
 
-  // move the 2nd servo into position
-  servo_2.write(angleRotate(X, Y));
+  
   
 
 
@@ -128,11 +148,11 @@ void loop()
 
 // provides the distance reading from one sensor in cm
 // takes the average of 10 readings, throwing away
-int dist(int trig, int echo)
+double dist(int trigPin, int echoPin)
 {
-  int d_cm = 0;
+  double d_cm = 0;
   int duration = 0;
-  int distances[5];
+  int distances[20];
   int arraysize = sizeof(distances) / sizeof(int);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -155,14 +175,14 @@ int dist(int trig, int echo)
 
   for (int i = 0; i < arraysize; i++)
   {
-    if (distances[i] < 3000)
+    if (MIN_DIST < distances[i] && distances[i] < 3000)
     {
       sum += distances[i];
       n++;
     }
   }
 
-  d_cm = (int)(sum / n);
+  d_cm = (double)(sum / n);
 
   return d_cm;
 }
@@ -170,6 +190,15 @@ int dist(int trig, int echo)
 // provides the angle for the servo to rotate through
 int angleRotate(int x, int y)
 {
-  
+  double arg = (double) x/y;
+  Serial.println(String("Arg: ") + arg);
+  int angle = (int) to_degrees(atan(arg));
+  Serial.println(String("To rotate servo_2 by ") + angle);
+  return angle;
+}
+
+inline double to_degrees(double radians) 
+{
+    return (double) radians * (180.0 / M_PI);
 }
 
