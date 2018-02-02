@@ -18,9 +18,9 @@ const int NUM_SENSORS = 1;
 
 int trigs[NUM_SENSORS] = {6}; // pins for triggers of sensors
 int echoes[NUM_SENSORS] = {7}; // pins for echoes of sensors
-int yDist[NUM_SENSORS] = {200}; // dist in cm of the sensors' y-position
+int yDist[NUM_SENSORS] = {50}; // dist in cm of the sensors' y-position
 
-NewPing sonars[NUM_SENSORS] = NewPing(6, 7)};
+NewPing sonars[NUM_SENSORS] = {NewPing(6, 7)};
 
 Servo servo_1; // servo rotating along z-axis
 int pin_servo_1 = 10;
@@ -66,12 +66,16 @@ void setup()
 
 void loop()
 {  
+//  delay(1000);
   // cycle through the sensors to check which one is firing block
+  // this thing almost actually works!!! 
+  // still randomly jumps, but it's the most stable so far
+  // now to check if it works with multiple sensors.....
   for (int i = 0; i < NUM_SENSORS; i++)
   {
     if (sonars[i].ping_cm() > MIN_DIST)
     {
-      X = sonar.ping_cm();
+      X = sonars[i].ping_cm();
       Y = yDist[i];
       String toWrite = String("X: ") + X + String("cm. Y:") + Y + String("cm.");
       Serial.println(toWrite);
@@ -148,26 +152,27 @@ void loop()
 
 // provides the distance reading from one sensor in cm
 // takes the average of 10 readings, throwing away
-double dist(int trigPin, int echoPin)
+/*double*/ int dist(/* int trigPin, int echoPin */ NewPing sonar)
 {
   double d_cm = 0;
-  int duration = 0;
+//  int duration = 0;
   int distances[20];
   int arraysize = sizeof(distances) / sizeof(int);
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
+//  pinMode(trigPin, OUTPUT);
+//  pinMode(echoPin, INPUT);
 
 
   for (int i = 0; i < arraysize; i++)
   {
-    digitalWrite(trigPin, LOW);  // Added this line
-    delayMicroseconds(2); // Added this line
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10); // Added this line
-    digitalWrite(trigPin, LOW);
-    duration = pulseIn(echoPin, HIGH);
-    d_cm = (duration / 2) / 29.1;
-    distances[i] = d_cm;
+//    digitalWrite(trigPin, LOW);  // Added this line
+//    delayMicroseconds(2); // Added this line
+//    digitalWrite(trigPin, HIGH);
+//    delayMicroseconds(10); // Added this line
+//    digitalWrite(trigPin, LOW);
+//    duration = pulseIn(echoPin, HIGH);
+//    d_cm = (duration / 2) / 29.1;
+//    distances[i] = d_cm;
+      distances[i] = sonar.ping_cm();
   }
 
   int sum = 0;
@@ -184,7 +189,7 @@ double dist(int trigPin, int echoPin)
 
   d_cm = (double)(sum / n);
 
-  return d_cm;
+  return (int)d_cm;
 }
 
 // provides the angle for the servo to rotate through
