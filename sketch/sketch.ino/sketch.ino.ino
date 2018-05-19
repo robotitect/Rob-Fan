@@ -76,19 +76,13 @@ void loop()
 {
   // motor control
   motorLoop();
-  
   //  delay(1000);
   // cycle through the sensors to check which one is firing block
-  // this thing almost actually works!!!
-  // still randomly jumps, but it's the most stable so far
-  // now to check if it works with multiple sensors.....
   // UPDATE: it works, but it's noisy
   // need to figure out a way to actually stick with one, currently biases the first sensor
   int position = 0;
   for (int i = 0; i < NUM_SENSORS; i++)
   {
-//    X = sonars[i].ping_cm();
-    
     X = dist(sonars[i]);
     Serial.println((i + 1) + String(": ") + X);
     //    if (sonars[i].ping_cm() > MIN_DIST)
@@ -111,65 +105,6 @@ void loop()
       }
       break;
     }
-  }
-
-
-
-
-
-  // SCRAPPED: bluetooth communications block -> end of loop()
-  char c;
-  if (Bluetooth.available())
-  {
-    c = Serial.read(); // reads data from serial, stores it inside character variable
-  }
-
-  // the problem is either in the conncection, reading the messages, or in this switch statement
-  switch (c)
-  {
-      if (c == 'l')
-      {
-        Serial.print("Left received");
-        if (pos_2 > MAX_LEFT)
-        {
-          pos_2 += 15;
-          servo_2.write(pos_2);
-        }
-        break;
-      }
-
-      if (c == 'r')
-      {
-        Serial.print("Right received");
-        if (pos_2 < MAX_RIGHT)
-        {
-          pos_2 -= 15;
-          servo_2.write(pos_2);
-        }
-        break;
-      }
-
-      if (c == 'u')
-      {
-        Serial.print("Up received");
-        if (pos_1 < MAX_UP)
-        {
-          pos_1 += 15;
-          servo_1.write(pos_1);
-        }
-        break;
-      }
-
-      if (c == 'd')
-      {
-        Serial.print("Down received");
-        if (pos_1 > MAX_DOWN)
-        {
-          pos_1 -= 15;
-          servo_1.write(pos_1);
-        }
-        break;
-      }
   }
 }
 
@@ -232,4 +167,3 @@ inline double to_degrees(double radians)
 {
   return (double) radians * (180.0 / M_PI);
 }
-
