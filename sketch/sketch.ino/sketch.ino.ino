@@ -1,10 +1,9 @@
 /*
   Controls the system, comprised of two servos and one motor.
   (x is forward/backwards, y is left/right, z is up/down)
-  Servo 1 rotates 180 degrees about its z-axis.
-  Servo 2 is rotated by Servo 1 and rotates about its y-axis.
-  The motor drives a fan blade and is attached to Servo 2.
-  With this setup the motor can be rotated through a hemisphere.
+  [UNUSED] Servo 1 rotates 180 degrees about its z-axis.
+  Servo 2 is rotates about y-axis.
+  The motor drives a fan blade and is attached to Servo 2..
 */
 
 #include <math.h>
@@ -19,30 +18,29 @@ const int NUM_SENSORS = 2;
 
 int trigs[NUM_SENSORS] = {6, 3}; // pins for triggers of sensors
 int echoes[NUM_SENSORS] = {7, 11}; // pins for echoes of sensors
-int yDist[NUM_SENSORS] = {30, 90}; // dist in cm of the sensors' y-position
+int yDist[NUM_SENSORS] = {30, 90}; // dist in cm of the sensors' y-position from fan
 
 const int MAX_DIST = 200; // this is too far
 
 NewPing sonars[NUM_SENSORS] = {NewPing(6, 7, MAX_DIST), NewPing(3, 11, MAX_DIST)};
 
-Servo servo_1; // servo rotating along z-axis
-int pin_servo_1 = 13; // fix
+Servo servo_1; // [UNUSED] servo rotating along z-axis
+int pin_servo_1 = 13; // [UNUSED] 
 Servo servo_2; // servo rotating along y-axis
 int pin_servo_2 = 9;
 
-int pos_1 = 0; // position of Servo 1
-int pos_2 = 0; // position of Servo 2
+int pos_1 = 0; // [UNUSED] position of Servo 1
+int pos_2 = 0; // [UNUSED] position of Servo 2
 
-const int MAX_UP = 120; // Servo 1 can be a max of 120 degrees up from straight down
-const int MAX_DOWN = 60; // Servo 1 can be a minimum of 60 degrees up from straight down
+const int MAX_UP = 120; // [UNUSED] Servo 1 can be a max of 120 degrees up from straight down
+const int MAX_DOWN = 60; // [UNUSED] Servo 1 can be a minimum of 60 degrees up from straight down
 
 const int MAX_LEFT = 0; // Servo 2 can be a minimum of 0 degrees from the right
 const int MAX_RIGHT = 180; // Servo 2 can be a max of 180 degrees from the right
 
 const int MIN_DIST = 10; // minimum distance to consider the sensor firing
 
-
-int temperaturePin = A0;
+int temperaturePin = A0; // [UNUSED] for the temperature sensor
 
 int motorControl = 5; // motor attached to pwm pin
 
@@ -67,9 +65,9 @@ void setup()
   //  }
 
   Serial.begin(38400); // receiving data from bluetooth at 38400 bits per second
-  Serial.println("Waiting commands....");
-  Bluetooth.begin(38400);
-  Bluetooth.println("Send 1 to turn on the LED. Send 0 to turn Off");
+//  Serial.println("Waiting commands....");
+//  Bluetooth.begin(38400);
+//  Bluetooth.println("Send 1 to turn on the LED. Send 0 to turn Off");
 }
 
 void loop()
@@ -109,8 +107,8 @@ void loop()
 }
 
 
-// provides the distance reading from one sensor in cm
-// takes the average of 10 readings, throwing away
+// Provides the distance reading from one sensor in cm
+// Takes the average of 10 readings, throwing away
 /*double*/ int dist(NewPing sonar)
 {
   double d_cm = 0;
@@ -153,7 +151,7 @@ void loop()
   return (int)d_cm;
 }
 
-// provides the angle for the servo to rotate through
+// Provides the angle for the servo to rotate through
 int angleRotate(int y, int x)
 {
   double arg = (double) x / y;
