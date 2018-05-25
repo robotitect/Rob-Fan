@@ -1,7 +1,11 @@
+/*
+  Helper file to separate out the motor functions.
+  [UNUSED] Includes the temperature sensing.
+*/
+
 // Controls the motor
 void motorLoop()
 {
-  // motorControl = 5
   analogWrite(motorControl, getMotorSpeed());
 }
 
@@ -9,7 +13,7 @@ void motorLoop()
 // Would have used the temperature sensor; mapped temperature -> speed level
 int getMotorSpeed()
 {
-  int temperature = getTemperature();
+  // int temperature = getTemperature();
   return 255/2;
 }
 
@@ -21,4 +25,3 @@ int getTemperature()
   Serial.println(temp);
   return temp;
 }
-
