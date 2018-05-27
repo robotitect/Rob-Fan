@@ -1,4 +1,3 @@
 /Stand/*
 *.png
-.gitignore
-.gitattributes
+/post/*
