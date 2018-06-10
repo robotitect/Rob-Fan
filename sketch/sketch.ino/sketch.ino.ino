@@ -21,7 +21,7 @@ int echoes[NUM_SENSORS] = {7, 11}; // Pins for echoes of sensors
 int yDist[NUM_SENSORS] = {30, 90}; // Distance in cm of the sensors' y-position from fan
 
 const int MIN_DIST = 10; // Minimum distance to consider the sensor firing
-const int MAX_DIST = 200; // This is too far, indicates an error reading from sensor
+const int MAX_DIST = 100; // This is too far, indicates an error reading from sensor
 
 NewPing sonars[NUM_SENSORS] = {NewPing(6, 7, MAX_DIST), NewPing(3, 11, MAX_DIST)};
 
@@ -53,10 +53,10 @@ QuickStats stats; // [UNUSED] Stats helper
 void setup()
 {
   servo_1.attach(pin_servo_1);
-  servo_2.attach(pin_servo_2);
+  servo_2.attach(pin_servo_2); // [UNUSED]
   pinMode(motorControl, OUTPUT);
   servo_1.write(0);
-  servo_2.write(0);
+  servo_2.write(0); // [UNUSED]
 
   Serial.begin(38400);
 }
@@ -68,7 +68,8 @@ void loop()
   // Cycle through the sensors to check which one is firing
   // [UNADDRESSED] Currently biases the first sensor
   int position = 0;
-  for(int i = 0; i < NUM_SENSORS; i++)
+//  for(int i = 0; i < NUM_SENSORS; i++)
+  for(int i = NUM_SENSORS - 1; i > -1; i--)
   {
     X = dist(sonars[i]);
     Serial.println((i + 1) + String(": ") + X);
@@ -77,7 +78,7 @@ void loop()
       Y = yDist[i];
       String toWrite = String("X: ") + X + String("cm. Y:") + Y + String("cm.");
       Serial.println(toWrite);
-      if X > 0)
+      if(X > 0)
       {
         // Move the 2nd servo into position
         int theta = angleRotate(X, Y);
@@ -98,7 +99,7 @@ void loop()
 int dist(NewPing sonar)
 {
   double d_cm = 0;
-  int samples = 1;
+  int samples = 5;
   float distances[samples];
   int arraysize = sizeof(distances) / sizeof(int);
 

@@ -1,11 +1,13 @@
 # Rob|Fan
 
+<!-- ![banner](media/banner.png) -->
+
 **Rob|Fan*** is a fan that follows a subject around a room,
 always pointing its breeze straight at them: a **rob**otic **fan**.
 
 ## Technical Details
 
-<image-of-whiteboard-explanation>
+![whiteboard explanation](media/whiteboard.png)
 
 An array of sensors lies along one wall. Each of their positions *with
 respect to the fan* is known beforehand and stored in the array
@@ -25,8 +27,8 @@ int angleRotate(int x, int y)
   return (int) atan((double) x / y);
 }
 ```
-This gives the angle *from the
-[wall of sensors/wall intersecting Fan & parallel to sensor lines]*
+This gives the angle **from** the
+/wall intersecting Fan & parallel to sensor lines/
 to rotate the servo towards.
 
 ## Major Components
@@ -40,8 +42,8 @@ While some of these aren't the **exact** ones I used they should be
 - [x] [Propellor](https://www.amazon.com/Flormoon-Propeller-Four-vane-Leaves-Airplane/dp/B06XCTGCLK) (1x)
 
 And these were some possible extensions:
-- [ ] [HC-SR04 Ultrasonic Distance Sensor](https://www.sparkfun.com/products/13959) (More than 2x)
 - [ ] [Temperature Sensor](https://www.sparkfun.com/products/10988) (1x)
 - [ ] [Bluetooth Module](https://www.amazon.com/HiLetgo%C2%AE-Wireless-Bluetooth-Transceiver-Arduino/dp/B071YJG8DR/ref=sr_1_3?s=electronics&ie=UTF8&qid=1527396105&sr=1-3&keywords=hc-05) (1x)
+- [ ] [HC-SR04 Ultrasonic Distance Sensor](https://www.sparkfun.com/products/13959) (More)
 
-**(Yes, this name is inspired by ~~stolen from~~ [Rob|Arch](http://www.robarch2018.org/))*
+**(Name ~~stolen from~~ inspired by [Rob|Arch](http://www.robarch2018.org/))*
